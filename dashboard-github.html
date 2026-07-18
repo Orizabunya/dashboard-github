@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<base target="_top">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F7F5; --card:#FFF; --ink:#17242A; --muted:#5C6B6A;
+    --teal:#0E7C7B; --teal-d:#0B6362; --teal-soft:#E3F0EF;
+    --line:#D4DBD9; --line-soft:#EDF1F0;
+    --amber:#B0731C; --violet:#6E4FA0; --stamp:#B3402A; --plum:#8C2F52; --slate:#3E6B8C;
+    --leave-bg:#FBF3E2; --leave:#8A6D3B; --ok:#1D7A4C; --radius:9px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{font-family:'Sarabun',sans-serif;background:var(--paper);color:var(--ink);
+    line-height:1.5;font-size:15px}
+  .topbar{position:sticky;top:0;z-index:40;background:var(--card);
+    border-bottom:1px solid var(--line);padding:10px 14px}
+  .topbar h1{font-family:'Prompt',sans-serif;font-size:1.02rem;font-weight:600}
+  .topbar h1 span{color:var(--teal)}
+  .rowflex{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  input[type=date]{font-family:'Sarabun',sans-serif;font-size:15px;padding:7px 9px;
+    border:1px solid var(--line);border-radius:7px;min-height:38px}
+  .btn{font-family:'Prompt',sans-serif;font-weight:600;font-size:.86rem;padding:8px 13px;
+    border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);
+    cursor:pointer;min-height:38px}
+  .btn.primary{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .pill{font-size:.78rem;font-weight:600;border-radius:999px;padding:4px 12px}
+  .pill.locked{background:#E2F0E8;color:var(--ok)}
+  .pill.open{background:var(--leave-bg);color:var(--leave)}
+  .wrap{max-width:960px;margin:0 auto;padding:12px 12px 40px}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px;margin-bottom:14px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:9px 11px}
+  .stat b{display:block;font-family:'Prompt',sans-serif;font-size:1.3rem;color:var(--teal-d);font-weight:700}
+  .stat small{font-size:.74rem;color:var(--muted)}
+  .shifthead{font-family:'Prompt',sans-serif;font-weight:600;color:var(--teal-d);margin:16px 0 8px;
+    display:flex;align-items:center;gap:8px}
+  .shifthead::before{content:'';width:9px;height:18px;background:var(--teal);border-radius:3px}
+  .vteam{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    margin-bottom:12px;overflow:hidden}
+  .vteam h4{font-family:'Prompt',sans-serif;font-size:.9rem;background:var(--teal-soft);
+    color:var(--teal-d);padding:7px 12px}
+  .tblwrap{overflow-x:auto}
+  table.view{width:100%;border-collapse:collapse;font-size:.84rem;min-width:680px}
+  table.view th{text-align:left;font-size:.74rem;color:var(--muted);padding:6px 9px;
+    border-bottom:1px solid var(--line);white-space:nowrap;background:#FBFCFB}
+  table.view td{padding:7px 9px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  tr.leave{background:var(--leave-bg)}
+  .vchip{font-size:.72rem;font-weight:600;color:#fff;border-radius:999px;padding:1px 8px;
+    margin:1px 2px 1px 0;display:inline-block;background:#6B7A78}
+  .vchip.fall{background:var(--amber)}.vchip.pi{background:var(--violet)}
+  .vchip.delirium{background:var(--stamp)}.vchip.violence{background:var(--plum)}.vchip.hip{background:var(--slate)}
+  .badge{font-size:.72rem;font-weight:600;border-radius:6px;padding:1px 7px;display:inline-block;margin:1px 2px}
+  .badge.ot{background:#FBEED9;color:var(--amber);border:1px solid var(--amber)}
+  .badge.early{background:#E8F0F6;color:var(--slate);border:1px solid var(--slate)}
+  .badge.train{background:#EFE8F5;color:var(--violet);border:1px solid var(--violet)}
+  .badge.leave{background:#F0DFB8;color:var(--leave)}
+  .badge.stud{background:#D6E5F1;color:var(--slate)}
+  .empty{background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
+    padding:36px;text-align:center;color:var(--muted)}
+  .loading{text-align:center;padding:50px;color:var(--muted)}
+  footer{font-size:.76rem;color:var(--muted);text-align:center;margin-top:22px}
+  @media print{
+    .topbar .rowflex,.btn{display:none!important}
+    body{background:#fff}.wrap{max-width:100%;padding:0}
+    .vteam{page-break-inside:avoid;border-radius:0}
+    table.view{min-width:0}
+    @page{size:A4 portrait;margin:11mm}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>ใบมอบหมายงาน <span>หอผู้ป่วยเฉลิมพระเกียรติ 7 ใต้</span> · สำหรับดูอย่างเดียว</h1>
+  <div class="rowflex">
+    <input type="date" id="pickDate">
+    <button class="btn primary" onclick="load()">↻ รีเฟรช</button>
+    <button class="btn" onclick="window.print()">🖨 พิมพ์ A4</button>
+    <span class="pill" id="lockpill" hidden></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="board"><div class="loading">กำลังโหลด…</div></div>
+  <footer>อัปเดตล่าสุด <span id="updated">—</span> · หน้านี้ดูอย่างเดียว การจ่ายงานทำโดยหัวหน้าเวรเท่านั้น · โฮสต์บน GitHub Pages · รีเฟรชอัตโนมัติทุก 5 นาที</footer>
+</div>
+
+<script>
+const TEAMS=['ทีม 1','ทีม 2','คนงาน'];
+const SHIFTS=['เวรเช้า','เวรบ่าย','เวรดึก'];
+const $=id=>document.getElementById(id);
+$('pickDate').value=new Date().toISOString().slice(0,10);
+$('pickDate').addEventListener('change',load);
+
+/*DATA_LOADER_START*/
+/* ⚙️ วาง URL ของ Web App (Apps Script → Deploy) ที่นี่ — ลงท้ายด้วย /exec */
+const API_URL = 'https://script.google.com/macros/s/XXXXXXXXXXXX/exec';
+
+async function load(){
+  $('board').innerHTML='<div class="loading">กำลังโหลดข้อมูล…</div>';
+  if(API_URL.includes('XXXX')){
+    $('board').innerHTML='<div class="empty">ยังไม่ได้ตั้งค่า — เปิดไฟล์นี้แล้ววาง URL ของ Web App ในบรรทัด <b>const API_URL</b></div>';
+    return;
+  }
+  const url=API_URL+'?api=1&date='+$('pickDate').value;
+  try{
+    const res=await fetch(url);
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    render(await res.json());
+  }catch(err){
+    // สำรอง JSONP เผื่อเครือข่ายโรงพยาบาลบล็อก fetch
+    const cb='cb_'+Date.now();
+    window[cb]=d=>{render(d);delete window[cb];s.remove();};
+    const s=document.createElement('script');
+    s.src=url+'&callback='+cb;
+    s.onerror=()=>{$('board').innerHTML='<div class="empty">เชื่อมต่อ API ไม่ได้ ('+esc(err.message)+') — ตรวจว่า Deploy แบบ Anyone และ URL ลงท้าย /exec</div>';delete window[cb];s.remove();};
+    document.body.appendChild(s);
+  }
+}
+/*DATA_LOADER_END*/
+
+function render(data){
+  $('updated').textContent=data.generatedAt||new Date().toLocaleString('th-TH');
+  const pill=$('lockpill');
+  pill.hidden=false;
+  if(data.locked){pill.className='pill locked';pill.textContent='🔒 ยืนยันปิดวันแล้ว (ข้อมูลสมบูรณ์)';}
+  else{pill.className='pill open';pill.textContent='⏳ ยังไม่ปิดวัน (อาจมีการแก้ไข)';}
+
+  const recs=(data.records||[]).filter(r=>r['ชื่อบุคลากร']);
+  if(!recs.length){
+    $('board').innerHTML='<div class="empty"><b style="font-family:Prompt;display:block;margin-bottom:5px">ยังไม่มีการจ่ายงานของวันนี้</b>หัวหน้าเวรยังไม่ได้บันทึก — ลองรีเฟรชภายหลัง</div>';
+    return;
+  }
+  const thai=new Date($('pickDate').value+'T00:00:00')
+    .toLocaleDateString('th-TH',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  // สรุปยอด
+  const active=recs.filter(r=>r['สถานะ']!=='ลากิจ'&&r['สถานะ']!=='ลาป่วย');
+  const leave=recs.length-active.length;
+  const ot=recs.filter(r=>String(r['เวลาปฏิบัติงาน']||'').indexOf('OT')>-1).length;
+  const early=recs.filter(r=>String(r['เวลาปฏิบัติงาน']||'').indexOf('13.00')>-1).length;
+  const train=recs.filter(r=>r['อบรมประชุม']).length;
+  const risk=recs.filter(r=>(r.highrisk||[]).length).length;
+
+  let html=`<h2 style="font-family:'Prompt';font-size:1.05rem;margin:2px 0 10px">${esc(thai)}</h2>`;
+  html+=`<div class="summary">
+    <div class="stat"><b>${active.length}</b><small>ขึ้นเวร</small></div>
+    <div class="stat"><b>${leave}</b><small>ลา</small></div>
+    <div class="stat"><b>${ot}</b><small>OT</small></div>
+    <div class="stat"><b>${early}</b><small>ขึ้นก่อน 13.00</small></div>
+    <div class="stat"><b>${train}</b><small>อบรม/ประชุม</small></div>
+    <div class="stat"><b>${risk}</b><small>มี High risk</small></div></div>`;
+
+  SHIFTS.forEach(s=>{
+    const rows=recs.filter(r=>(r['เวร']||'เวรเช้า')===s);
+    if(!rows.length)return;
+    html+=`<div class="shifthead">${s} · ${rows.length} คน</div>`;
+    const teamNames=[...TEAMS.filter(t=>rows.some(r=>r['ทีม']===t)),
+      ...[...new Set(rows.map(r=>r['ทีม']))].filter(t=>!TEAMS.includes(t))];
+    teamNames.forEach(team=>{
+      const list=rows.filter(r=>r['ทีม']===team);if(!list.length)return;
+      html+=`<div class="vteam"><h4>${esc(team)}</h4><div class="tblwrap"><table class="view"><thead><tr>
+        <th>ชื่อ</th><th>ระดับ</th><th>เตียง</th><th>พัก</th><th>อัคคีภัย</th><th>ตรวจเยี่ยม</th><th>High risk</th><th>นิเทศ</th><th>สถานะ/พิเศษ</th></tr></thead><tbody>`;
+      list.forEach(r=>{
+        const isLeave=(r['สถานะ']==='ลากิจ'||r['สถานะ']==='ลาป่วย');
+        const notes=[];
+        const wt=String(r['เวลาปฏิบัติงาน']||'');
+        if(wt&&wt!=='ปกติ')notes.push(`<span class="badge ${wt.indexOf('OT')>-1?'ot':'early'}">${wt.indexOf('OT')>-1?'⏱ ':''}${esc(wt)}</span>`);
+        if(r['อบรมประชุม'])notes.push(`<span class="badge train">📋 ${esc(r['อบรมประชุม'])}</span>`);
+        if(r['ระดับ']==='นศ.')notes.push('<span class="badge stud">นักศึกษาฝึก</span>');
+        if(isLeave)notes.push(`<span class="badge leave">${esc(r['สถานะ'])}</span>`);
+        else if(r['สถานะ']&&r['สถานะ']!=='ขึ้นเวร')notes.push(`<span class="badge early">${esc(r['สถานะ'])}</span>`);
+        if(r['หน้าที่พิเศษ'])notes.push(esc(r['หน้าที่พิเศษ']));
+        html+=`<tr class="${isLeave?'leave':''}">
+          <td><b>${esc(r['ชื่อบุคลากร'])}</b>${r['หมายเหตุ']?`<br><small style="color:var(--muted)">${esc(r['หมายเหตุ'])}</small>`:''}</td>
+          <td>${esc(r['ระดับ']||'-')}</td>
+          <td><b style="color:var(--teal-d)">${esc(r['เตียงรับผิดชอบ']||'-')}</b></td>
+          <td>${esc(r['เวลาพัก']||'-')}</td>
+          <td>${esc(r['อัคคีภัย']||'-')}</td>
+          <td>${esc(r['หน้าที่ตรวจเยี่ยม']||'-')}</td>
+          <td>${(r.highrisk||[]).map(rk=>`<span class="vchip ${riskCls(rk)}">${esc(rk)}</span>`).join('')||'-'}</td>
+          <td>${esc(r['ได้ทำนิเทศ']||'-')}</td>
+          <td>${notes.join(' ')||'✓ ขึ้นเวร'}</td></tr>`;
+      });
+      html+=`</tbody></table></div></div>`;
+    });
+  });
+  $('board').innerHTML=html;
+}
+
+function riskCls(rk){const t=(rk||'').toLowerCase();
+  if(t.includes('fall')||rk.includes('พลัดตก'))return'fall';
+  if(t.includes('pi')||rk.includes('กดทับ'))return'pi';
+  if(t.includes('delirium')||rk.includes('สับสน'))return'delirium';
+  if(t.includes('violence')||rk.includes('รุนแรง'))return'violence';
+  if(t.includes('hip'))return'hip';return'other';}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+load();
+setInterval(load, 5*60*1000); // รีเฟรชอัตโนมัติทุก 5 นาที
+</script>
+</body>
+</html>
