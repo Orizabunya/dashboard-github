@@ -11,10 +11,27 @@
     --line:#D4DBD9; --line-soft:#EDF1F0;
     --amber:#B0731C; --violet:#6E4FA0; --stamp:#B3402A; --plum:#8C2F52; --slate:#3E6B8C;
     --leave-bg:#FBF3E2; --leave:#8A6D3B; --ok:#1D7A4C; --radius:9px;
+
+    /* ═══ ระบบขนาดตัวอักษร (ปรับได้ 3 ระดับสำหรับผู้มีปัญหาสายตา) ═══
+       ทุกอย่างอิงจาก --fs ตัวเดียว ทั้งตัวอักษร ระยะห่าง และชิป
+       จึงขยายพร้อมกันทั้งชุด layout ไม่พัง                            */
+    --fs:15px;          /* ขนาดฐาน */
+    --lh:1.5;           /* ความสูงบรรทัด */
+    --pad-cell:7px 8px; /* ระยะในเซลล์ตาราง */
+    --tbl-min:860px;    /* ความกว้างต่ำสุดของตาราง */
+    --chip-fs:.72rem;
+  }
+  /* ระดับใหญ่ — เพิ่มทั้งขนาด ระยะห่าง และความกว้างตาราง */
+  body.fs-lg{
+    --fs:18px; --lh:1.62; --pad-cell:10px 11px; --tbl-min:1020px; --chip-fs:.78rem;
+  }
+  /* ระดับใหญ่พิเศษ */
+  body.fs-xl{
+    --fs:21px; --lh:1.7; --pad-cell:13px 13px; --tbl-min:1180px; --chip-fs:.82rem;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{font-family:'Sarabun',sans-serif;background:var(--paper);color:var(--ink);
-    line-height:1.5;font-size:15px}
+    line-height:var(--lh);font-size:var(--fs)}
   .topbar{position:sticky;top:0;z-index:40;background:var(--card);
     border-bottom:1px solid var(--line);padding:10px 14px}
   .topbar h1{font-family:'Prompt',sans-serif;font-size:1.02rem;font-weight:600}
@@ -26,37 +43,90 @@
     border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);
     cursor:pointer;min-height:38px}
   .btn.primary{background:var(--teal);color:#fff;border-color:var(--teal)}
-  .pill{font-size:.78rem;font-weight:600;border-radius:999px;padding:4px 12px}
+  .pill{font-size:.82em;font-weight:600;border-radius:999px;padding:5px 13px}
+
+  /* ── กลุ่มปุ่มปรับขนาดตัวอักษร ── */
+  .fsgroup{display:inline-flex;align-items:center;gap:2px;border:1px solid var(--line);
+    border-radius:9px;padding:3px 4px 3px 10px;background:var(--card)}
+  .fslabel{font-size:.76em;color:var(--muted);font-weight:600;margin-right:5px;white-space:nowrap}
+  .fsbtn{font-family:'Sarabun',sans-serif;font-weight:700;color:var(--muted);
+    background:transparent;border:none;border-radius:7px;cursor:pointer;
+    min-width:38px;min-height:36px;line-height:1;transition:background .15s,color .15s}
+  .fsbtn:hover{background:var(--teal-soft);color:var(--teal-d)}
+  .fsbtn:focus-visible{outline:3px solid var(--teal-soft);outline-offset:1px}
+  .fsbtn.on{background:var(--teal);color:#fff}
+  /* ขนาดตัว ก บอกระดับด้วยสายตา */
+  #fs-sm{font-size:14px} #fs-lg{font-size:19px} #fs-xl{font-size:24px}
+  @media print{.fsgroup{display:none!important}}
   .pill.locked{background:#E2F0E8;color:var(--ok)}
   .pill.open{background:var(--leave-bg);color:var(--leave)}
   .wrap{max-width:960px;margin:0 auto;padding:12px 12px 40px}
   .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px;margin-bottom:14px}
   .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:9px 11px}
-  .stat b{display:block;font-family:'Prompt',sans-serif;font-size:1.3rem;color:var(--teal-d);font-weight:700}
-  .stat small{font-size:.74rem;color:var(--muted)}
-  .shifthead{font-family:'Prompt',sans-serif;font-weight:600;color:var(--teal-d);margin:16px 0 8px;
-    display:flex;align-items:center;gap:8px}
+  .stat b{display:block;font-family:'Prompt',sans-serif;font-size:1.55em;color:var(--teal-d);font-weight:700}
+  .stat small{font-size:.8em;color:var(--muted)}
+  .shifthead{font-family:'Prompt',sans-serif;font-weight:600;font-size:1.08em;
+    color:var(--teal-d);margin:18px 0 9px;display:flex;align-items:center;gap:8px}
   .shifthead::before{content:'';width:9px;height:18px;background:var(--teal);border-radius:3px}
   .vteam{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
     margin-bottom:12px;overflow:hidden}
-  .vteam h4{font-family:'Prompt',sans-serif;font-size:.9rem;background:var(--teal-soft);
-    color:var(--teal-d);padding:7px 12px}
+  .vteam h4{font-family:'Prompt',sans-serif;font-size:1.02em;background:var(--teal-soft);
+    color:var(--teal-d);padding:9px 13px}
   .tblwrap{overflow-x:auto}
-  table.view{width:100%;border-collapse:collapse;font-size:.84rem;min-width:680px}
-  table.view th{text-align:left;font-size:.74rem;color:var(--muted);padding:6px 9px;
+  /* table-layout:fixed + colgroup = ทุกทีมมีความกว้างคอลัมน์เท่ากันเป๊ะ
+     (ถ้าไม่กำหนด เบราว์เซอร์จะคำนวณแยกแต่ละตาราง ทำให้ทีมที่ชื่อยาวคอลัมน์เตียงแคบจนตกบรรทัด) */
+  table.view{width:100%;border-collapse:collapse;font-size:.88em;
+    min-width:var(--tbl-min);table-layout:fixed}
+  table.view th{text-align:left;font-size:.78em;color:var(--muted);padding:var(--pad-cell);
     border-bottom:1px solid var(--line);white-space:nowrap;background:#FBFCFB}
-  table.view td{padding:7px 9px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  table.view td{padding:var(--pad-cell);border-bottom:1px solid var(--line-soft);vertical-align:top;
+    word-break:break-word}
+  /* คอลัมน์แคบเหล่านี้ห้ามตกบรรทัดเด็ดขาด */
+  table.view td.c-lvl,table.view td.c-bed,table.view td.c-brk,
+  table.view td.c-fire,table.view td.c-sup{white-space:nowrap}
+  /* ความกว้างคอลัมน์คงที่ (รวม = 100%) */
+  col.w-name{width:18%}  col.w-lvl{width:5.5%} col.w-bed{width:7.5%}
+  col.w-brk{width:7%}    col.w-fire{width:5%}  col.w-duty{width:19%}
+  col.w-risk{width:17.5%} col.w-sup{width:6.5%} col.w-note{width:14%}
   tr.leave{background:var(--leave-bg)}
-  .vchip{font-size:.72rem;font-weight:600;color:#fff;border-radius:999px;padding:1px 8px;
+  .vchip{font-size:var(--chip-fs);font-weight:600;color:#fff;border-radius:999px;padding:2px 9px;
     margin:1px 2px 1px 0;display:inline-block;background:#6B7A78}
   .vchip.fall{background:var(--amber)}.vchip.pi{background:var(--violet)}
   .vchip.delirium{background:var(--stamp)}.vchip.violence{background:var(--plum)}.vchip.hip{background:var(--slate)}
-  .badge{font-size:.72rem;font-weight:600;border-radius:6px;padding:1px 7px;display:inline-block;margin:1px 2px}
+  .badge{font-size:var(--chip-fs);font-weight:600;border-radius:6px;padding:2px 8px;display:inline-block;margin:1px 2px}
   .badge.ot{background:#FBEED9;color:var(--amber);border:1px solid var(--amber)}
   .badge.early{background:#E8F0F6;color:var(--slate);border:1px solid var(--slate)}
   .badge.train{background:#EFE8F5;color:var(--violet);border:1px solid var(--violet)}
   .badge.leave{background:#F0DFB8;color:var(--leave)}
   .badge.stud{background:#D6E5F1;color:var(--slate)}
+
+  /* ═══ ขนาดใหญ่บนจอแคบ: เปลี่ยนตารางเป็นการ์ดแนวตั้ง ═══
+     ผู้สูงอายุไม่ต้องเลื่อนซ้ายขวา อ่านไล่ลงมาได้เลย            */
+  @media (max-width:1100px){
+    body.fs-lg table.view, body.fs-xl table.view{min-width:0;display:block;table-layout:auto}
+    body.fs-lg table.view thead, body.fs-xl table.view thead{display:none}
+    body.fs-lg table.view tbody, body.fs-xl table.view tbody,
+    body.fs-lg table.view tr, body.fs-xl table.view tr{display:block;width:100%}
+    body.fs-lg table.view tr, body.fs-xl table.view tr{
+      border-bottom:2px solid var(--line);padding:6px 0 10px}
+    body.fs-lg table.view tr:last-child, body.fs-xl table.view tr:last-child{border-bottom:none}
+    body.fs-lg table.view td, body.fs-xl table.view td{
+      display:flex;gap:10px;align-items:flex-start;border:none;
+      padding:4px 14px;white-space:normal}
+    /* ป้ายกำกับหน้าเซลล์ (มาจาก data-label) */
+    body.fs-lg table.view td::before, body.fs-xl table.view td::before{
+      content:attr(data-label);flex:0 0 108px;color:var(--muted);
+      font-weight:600;font-size:.86em}
+    /* ชื่อ = หัวการ์ด ไม่ต้องมีป้าย */
+    body.fs-lg table.view td.c-name, body.fs-xl table.view td.c-name{
+      display:block;padding:8px 14px 4px;font-size:1.12em}
+    body.fs-lg table.view td.c-name::before,
+    body.fs-xl table.view td.c-name::before{content:none}
+    /* ซ่อนเซลล์ที่ไม่มีข้อมูล ลดความรก */
+    body.fs-lg table.view td.empty-cell,
+    body.fs-xl table.view td.empty-cell{display:none}
+    body.fs-lg .tblwrap, body.fs-xl .tblwrap{overflow-x:visible}
+  }
   .empty{background:var(--card);border:1px dashed var(--line);border-radius:var(--radius);
     padding:36px;text-align:center;color:var(--muted)}
   .loading{text-align:center;padding:50px;color:var(--muted)}
@@ -78,6 +148,12 @@
     <input type="date" id="pickDate">
     <button class="btn primary" onclick="load()">↻ รีเฟรช</button>
     <button class="btn" onclick="window.print()">🖨 พิมพ์ A4</button>
+    <div class="fsgroup" role="group" aria-label="ปรับขนาดตัวอักษร">
+      <span class="fslabel" aria-hidden="true">ขนาดอักษร</span>
+      <button class="fsbtn on" id="fs-sm" onclick="setFS('sm')" aria-label="ขนาดปกติ">ก</button>
+      <button class="fsbtn" id="fs-lg" onclick="setFS('lg')" aria-label="ขนาดใหญ่">ก</button>
+      <button class="fsbtn" id="fs-xl" onclick="setFS('xl')" aria-label="ขนาดใหญ่พิเศษ">ก</button>
+    </div>
     <span class="pill" id="lockpill" hidden></span>
   </div>
 </div>
@@ -96,7 +172,7 @@ $('pickDate').addEventListener('change',load);
 
 /*DATA_LOADER_START*/
 /* ⚙️ วาง URL ของ Web App (Apps Script → Deploy) ที่นี่ — ลงท้ายด้วย /exec */
-const API_URL = 'https://script.google.com/macros/s/AKfycbxdy0eGZ7C3lLK5O46NV2zyEk9kwSNJQ_AFdAvid1gW_ZCNc7Pgpf3rABr_xQdiTQw6/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbz20e_IodFh-MX7W9RRiSvJe5sUeNEgiT5wA49ZuB2PPDZsWHciOxlM2wyBPVHyAW0o/exec';
 
 async function load(){
   $('board').innerHTML='<div class="loading">กำลังโหลดข้อมูล…</div>';
@@ -161,7 +237,9 @@ function render(data){
       ...[...new Set(rows.map(r=>r['ทีม']))].filter(t=>!TEAMS.includes(t))];
     teamNames.forEach(team=>{
       const list=rows.filter(r=>r['ทีม']===team);if(!list.length)return;
-      html+=`<div class="vteam"><h4>${esc(team)}</h4><div class="tblwrap"><table class="view"><thead><tr>
+      html+=`<div class="vteam"><h4>${esc(team)}</h4><div class="tblwrap"><table class="view">
+        <colgroup><col class="w-name"><col class="w-lvl"><col class="w-bed"><col class="w-brk"><col class="w-fire"><col class="w-duty"><col class="w-risk"><col class="w-sup"><col class="w-note"></colgroup>
+        <thead><tr>
         <th>ชื่อ</th><th>ระดับ</th><th>เตียง</th><th>พัก</th><th>อัคคีภัย</th><th>ตรวจเยี่ยม</th><th>High risk</th><th>นิเทศ</th><th>สถานะ/พิเศษ</th></tr></thead><tbody>`;
       list.forEach(r=>{
         const isLeave=(r['สถานะ']==='ลากิจ'||r['สถานะ']==='ลาป่วย');
@@ -173,16 +251,18 @@ function render(data){
         if(isLeave)notes.push(`<span class="badge leave">${esc(r['สถานะ'])}</span>`);
         else if(r['สถานะ']&&r['สถานะ']!=='ขึ้นเวร')notes.push(`<span class="badge early">${esc(r['สถานะ'])}</span>`);
         if(r['หน้าที่พิเศษ'])notes.push(esc(r['หน้าที่พิเศษ']));
+        const mt=v=>(!v||v==='-')?' empty-cell':'';   // เซลล์ว่าง → ซ่อนในโหมดการ์ด
+        const risks=(r.highrisk||[]).map(rk=>`<span class="vchip ${riskCls(rk)}">${esc(rk)}</span>`).join('');
         html+=`<tr class="${isLeave?'leave':''}">
-          <td><b>${esc(r['ชื่อบุคลากร'])}</b>${r['หมายเหตุ']?`<br><small style="color:var(--muted)">${esc(r['หมายเหตุ'])}</small>`:''}</td>
-          <td>${esc(r['ระดับ']||'-')}</td>
-          <td><b style="color:var(--teal-d)">${esc(r['เตียงรับผิดชอบ']||'-')}</b></td>
-          <td>${esc(r['เวลาพัก']||'-')}</td>
-          <td>${esc(r['อัคคีภัย']||'-')}</td>
-          <td>${esc(r['หน้าที่ตรวจเยี่ยม']||'-')}</td>
-          <td>${(r.highrisk||[]).map(rk=>`<span class="vchip ${riskCls(rk)}">${esc(rk)}</span>`).join('')||'-'}</td>
-          <td>${esc(r['ได้ทำนิเทศ']||'-')}</td>
-          <td>${notes.join(' ')||'✓ ขึ้นเวร'}</td></tr>`;
+          <td class="c-name"><b>${esc(r['ชื่อบุคลากร'])}</b>${r['หมายเหตุ']?`<br><small style="color:var(--muted)">${esc(r['หมายเหตุ'])}</small>`:''}</td>
+          <td class="c-lvl" data-label="ระดับ">${esc(r['ระดับ']||'-')}</td>
+          <td class="c-bed${mt(r['เตียงรับผิดชอบ'])}" data-label="เตียง"><b style="color:var(--teal-d)">${esc(r['เตียงรับผิดชอบ']||'-')}</b></td>
+          <td class="c-brk" data-label="เวลาพัก">${esc(r['เวลาพัก']||'-')}</td>
+          <td class="c-fire${mt(r['อัคคีภัย'])}" data-label="อัคคีภัย">${esc(r['อัคคีภัย']||'-')}</td>
+          <td class="${mt(r['หน้าที่ตรวจเยี่ยม']).trim()}" data-label="ตรวจเยี่ยม">${esc(r['หน้าที่ตรวจเยี่ยม']||'-')}</td>
+          <td class="${risks?'':'empty-cell'}" data-label="High risk">${risks||'-'}</td>
+          <td class="c-sup${mt(r['ได้ทำนิเทศ'])}" data-label="นิเทศ">${esc(r['ได้ทำนิเทศ']||'-')}</td>
+          <td data-label="สถานะ">${notes.join(' ')||'✓ ขึ้นเวร'}</td></tr>`;
       });
       html+=`</tbody></table></div></div>`;
     });
@@ -197,6 +277,22 @@ function riskCls(rk){const t=(rk||'').toLowerCase();
   if(t.includes('violence')||rk.includes('รุนแรง'))return'violence';
   if(t.includes('hip'))return'hip';return'other';}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+/* ══════ ปรับขนาดตัวอักษร (จำค่าไว้ให้ผู้ใช้คนเดิม) ══════ */
+function setFS(size){
+  document.body.classList.remove('fs-lg','fs-xl');
+  if(size==='lg')document.body.classList.add('fs-lg');
+  if(size==='xl')document.body.classList.add('fs-xl');
+  ['sm','lg','xl'].forEach(s=>{
+    const b=$('fs-'+s); if(b)b.classList.toggle('on',s===size);
+  });
+  try{sessionStorage.setItem('ward7_fs',size);}catch(e){}
+}
+(function restoreFS(){
+  let s='sm';
+  try{s=sessionStorage.getItem('ward7_fs')||'sm';}catch(e){}
+  setFS(s);
+})();
 
 load();
 setInterval(load, 5*60*1000); // รีเฟรชอัตโนมัติทุก 5 นาที
