@@ -68,10 +68,56 @@
   .shifthead{font-family:'Prompt',sans-serif;font-weight:600;font-size:1.08em;
     color:var(--teal-d);margin:18px 0 9px;display:flex;align-items:center;gap:8px}
   .shifthead::before{content:'';width:9px;height:18px;background:var(--teal);border-radius:3px}
+  /* ── กล่องเวร สีพาสเทลแยกกะ ── */
+  .shiftsec{border-radius:12px;padding:4px 12px 12px;margin-bottom:18px;border:1px solid transparent}
+  .shiftsec .shifthead{margin-top:12px}
+  /* เวรเช้า = เขียวพาสเทล */
+  .shiftsec.sh-morning{background:#EAF6EE;border-color:#BFE3CC}
+  .shiftsec.sh-morning .shifthead{color:#2E7D4F}
+  .shiftsec.sh-morning .shifthead::before{background:#4CAF7D}
+  /* เวรบ่าย = ชมพูพาสเทล */
+  .shiftsec.sh-afternoon{background:#FCEEF3;border-color:#F3CBDB}
+  .shiftsec.sh-afternoon .shifthead{color:#B33A6A}
+  .shiftsec.sh-afternoon .shifthead::before{background:#E06B95}
+  /* เวรดึก = ฟ้าพาสเทล */
+  .shiftsec.sh-night{background:#EAF2FB;border-color:#C3D9F0}
+  .shiftsec.sh-night .shifthead{color:#2F6BAF}
+  .shiftsec.sh-night .shifthead::before{background:#5B93D6}
+  /* การ์ดตารางในกล่องเวรใช้พื้นขาวเพื่ออ่านง่าย */
+  .shiftsec .vteam{background:#fff}
   .vteam{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
     margin-bottom:12px;overflow:hidden}
   .vteam h4{font-family:'Prompt',sans-serif;font-size:1.02em;background:var(--teal-soft);
     color:var(--teal-d);padding:9px 13px}
+  /* ── สีทีมขึ้นกับเวร: ทุกทีมอยู่ในโทนเดียวกับเวร ไล่เฉดแยกทีม 1/2/คนงาน ── */
+  /* เวรเช้า — โทนเขียว */
+  .sh-morning .vteam.t1{border-left:4px solid #3E9E6E}.sh-morning .vteam.t1 h4{background:#D6EEDF;color:#256B47}
+  .sh-morning .vteam.t2{border-left:4px solid #6FB98C}.sh-morning .vteam.t2 h4{background:#E6F4EC;color:#2E7D4F}
+  .sh-morning .vteam.t3{border-left:4px solid #A7CDB5}.sh-morning .vteam.t3 h4{background:#EFF7F2;color:#3E7A57}
+  /* เวรบ่าย — โทนชมพู */
+  .sh-afternoon .vteam.t1{border-left:4px solid #D65A85}.sh-afternoon .vteam.t1 h4{background:#F8DAE5;color:#A82F5C}
+  .sh-afternoon .vteam.t2{border-left:4px solid #E68AA8}.sh-afternoon .vteam.t2 h4{background:#FCE7EE;color:#B33A6A}
+  .sh-afternoon .vteam.t3{border-left:4px solid #EFB6C9}.sh-afternoon .vteam.t3 h4{background:#FDF0F4;color:#BF547E}
+  /* เวรดึก — โทนฟ้า */
+  .sh-night .vteam.t1{border-left:4px solid #3F7EC4}.sh-night .vteam.t1 h4{background:#D5E4F5;color:#265F9E}
+  .sh-night .vteam.t2{border-left:4px solid #6E9FD6}.sh-night .vteam.t2 h4{background:#E4EEF9;color:#2F6BAF}
+  .sh-night .vteam.t3{border-left:4px solid #A6C3E4}.sh-night .vteam.t3 h4{background:#EEF4FB;color:#3E76B5}
+  /* ค่าเริ่มต้น (เผื่อไม่อยู่ในกล่องเวร) */
+  .vteam.t1{border-left:4px solid #2E9B99}.vteam.t1 h4{background:#DCEEED;color:#0B6362}
+  .vteam.t2{border-left:4px solid #C98A2B}.vteam.t2 h4{background:#FBF0DC;color:#8A5A16}
+  .vteam.t3{border-left:4px solid #7E5FA8}.vteam.t3 h4{background:#EDE6F3;color:#5B4680}
+  /* ── เฉดแถวตามระดับ RN/PN/คนงาน (ต่างกันเล็กน้อย โทนเดียวกับเวร) ── */
+  .sh-morning tbody tr.lv-rn td{background:#EAF6EF}
+  .sh-morning tbody tr.lv-pn td{background:#F1F9F4}
+  .sh-morning tbody tr.lv-wk td{background:#F7FBF9}
+  .sh-afternoon tbody tr.lv-rn td{background:#FCEAF1}
+  .sh-afternoon tbody tr.lv-pn td{background:#FDF1F5}
+  .sh-afternoon tbody tr.lv-wk td{background:#FEF7FA}
+  .sh-night tbody tr.lv-rn td{background:#E9F1FB}
+  .sh-night tbody tr.lv-pn td{background:#F1F6FC}
+  .sh-night tbody tr.lv-wk td{background:#F7FAFD}
+  /* แถวลา (เหลือง) ยังเด่นกว่าเฉดระดับเสมอ */
+  .shiftsec tbody tr.leave td{background:var(--leave-bg)}
   .tblwrap{overflow-x:auto}
   /* table-layout:fixed + colgroup = ทุกทีมมีความกว้างคอลัมน์เท่ากันเป๊ะ
      (ถ้าไม่กำหนด เบราว์เซอร์จะคำนวณแยกแต่ละตาราง ทำให้ทีมที่ชื่อยาวคอลัมน์เตียงแคบจนตกบรรทัด) */
@@ -160,11 +206,20 @@
 
 <div class="wrap">
   <div id="board"><div class="loading">กำลังโหลด…</div></div>
-  <footer>อัปเดตล่าสุด <span id="updated">—</span> · หน้านี้ดูอย่างเดียว การจ่ายงานทำโดยหัวหน้าเวรเท่านั้น · โฮสต์บน GitHub Pages · รีเฟรชอัตโนมัติทุก 5 นาที</footer>
+  <footer>อัปเดตล่าสุด <span id="updated">—</span> · หน้านี้ดูอย่างเดียว การจ่ายงานทำโดยหัวหน้าเวรเท่านั้น · รีเฟรชอัตโนมัติทุก 5 นาที</footer>
 </div>
 
 <script>
 const TEAMS=['ทีม 1','ทีม 2','คนงาน'];
+function teamCls(t){if(String(t).indexOf('1')>-1)return't1';if(String(t).indexOf('2')>-1)return't2';if(String(t).indexOf('คนงาน')>-1)return't3';return'';}
+/* แยกสีพาสเทลตามเวร: เช้า=เขียว บ่าย=ชมพู ดึก=ฟ้า */
+function shiftCls(s){if(s==='เวรเช้า')return'sh-morning';if(s==='เวรบ่าย')return'sh-afternoon';if(s==='เวรดึก')return'sh-night';return'';}
+/* จำแนกระดับเป็นกลุ่มสำหรับไล่เฉดสีแถว */
+function lvlCls(lv){lv=String(lv||'').toUpperCase();
+  if(lv.indexOf('RN')>-1||lv==='HN')return'lv-rn';
+  if(lv.indexOf('PN')>-1)return'lv-pn';
+  if(lv.indexOf('คนงาน')>-1||lv.indexOf('นศ')>-1)return'lv-wk';
+  return'';}
 const SHIFTS=['เวรเช้า','เวรบ่าย','เวรดึก'];
 const $=id=>document.getElementById(id);
 $('pickDate').value=new Date().toISOString().slice(0,10);
@@ -232,12 +287,13 @@ function render(data){
   SHIFTS.forEach(s=>{
     const rows=recs.filter(r=>(r['เวร']||'เวรเช้า')===s);
     if(!rows.length)return;
+    html+=`<div class="shiftsec ${shiftCls(s)}">`;
     html+=`<div class="shifthead">${s} · ${rows.length} คน</div>`;
     const teamNames=[...TEAMS.filter(t=>rows.some(r=>r['ทีม']===t)),
       ...[...new Set(rows.map(r=>r['ทีม']))].filter(t=>!TEAMS.includes(t))];
     teamNames.forEach(team=>{
       const list=rows.filter(r=>r['ทีม']===team);if(!list.length)return;
-      html+=`<div class="vteam"><h4>${esc(team)}</h4><div class="tblwrap"><table class="view">
+      html+=`<div class="vteam ${teamCls(team)}"><h4>${esc(team)}</h4><div class="tblwrap"><table class="view">
         <colgroup><col class="w-name"><col class="w-lvl"><col class="w-bed"><col class="w-brk"><col class="w-fire"><col class="w-duty"><col class="w-risk"><col class="w-sup"><col class="w-note"></colgroup>
         <thead><tr>
         <th>ชื่อ</th><th>ระดับ</th><th>เตียง</th><th>พัก</th><th>อัคคีภัย</th><th>ตรวจเยี่ยม</th><th>High risk</th><th>นิเทศ</th><th>สถานะ/พิเศษ</th></tr></thead><tbody>`;
@@ -253,7 +309,7 @@ function render(data){
         if(r['หน้าที่พิเศษ'])notes.push(esc(r['หน้าที่พิเศษ']));
         const mt=v=>(!v||v==='-')?' empty-cell':'';   // เซลล์ว่าง → ซ่อนในโหมดการ์ด
         const risks=(r.highrisk||[]).map(rk=>`<span class="vchip ${riskCls(rk)}">${esc(rk)}</span>`).join('');
-        html+=`<tr class="${isLeave?'leave':''}">
+        html+=`<tr class="${isLeave?'leave':''} ${lvlCls(r['ระดับ'])}">
           <td class="c-name"><b>${esc(r['ชื่อบุคลากร'])}</b>${r['หมายเหตุ']?`<br><small style="color:var(--muted)">${esc(r['หมายเหตุ'])}</small>`:''}</td>
           <td class="c-lvl" data-label="ระดับ">${esc(r['ระดับ']||'-')}</td>
           <td class="c-bed${mt(r['เตียงรับผิดชอบ'])}" data-label="เตียง"><b style="color:var(--teal-d)">${esc(r['เตียงรับผิดชอบ']||'-')}</b></td>
@@ -266,6 +322,7 @@ function render(data){
       });
       html+=`</tbody></table></div></div>`;
     });
+    html+=`</div>`;
   });
   $('board').innerHTML=html;
 }
