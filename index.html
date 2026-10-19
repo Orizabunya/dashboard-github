@@ -184,12 +184,104 @@
     table.view{min-width:0}
     @page{size:A4 portrait;margin:11mm}
   }
+  /* ═════════════════════════════════════════════════════════════
+     ธีม UX ใหม่ — อ้างอิง DESIGN.md (Realsee guide)
+     โทนฟ้าเป็นสีนำทาง · การ์ดขาวขอบมน 20–28px · เงาบางกว้าง · ปุ่มแคปซูล 48px
+     *** คงสีเวรเช้า/บ่าย/ดึก สีทีมตามโทนเวร และเฉดแถว RN/PN/คนงาน ไว้ตามเดิม
+         (กฎเหล่านั้นอยู่ด้านบน ใช้ selector ที่เจาะจงกว่า จึงไม่ถูกทับ) ***
+     ═════════════════════════════════════════════════════════════ */
+  :root{
+    --paper:#f6f8fb; --card:#ffffff; --ink:#172033; --muted:#5b6b82;
+    --line:#dbe4f0; --line-soft:#edf2f8;
+    --teal:#2563eb; --teal-d:#1d4ed8; --teal-soft:#eaf2ff;   /* สีหลัก (ชื่อเดิม ค่าใหม่ = ฟ้า) */
+    --radius:20px;
+    --shadow:0 18px 44px rgba(15,23,42,.08);
+    --shadow-sm:0 6px 20px rgba(15,23,42,.06);
+    --ring:0 0 0 3px #bfdbfe;
+  }
+  body{background:var(--paper);color:var(--ink)}
+  .wrap{max-width:1180px;padding:18px 16px 48px}
+  @media(min-width:700px){.wrap{padding:22px 24px 56px}}
+
+  /* ── Hero ── */
+  .topbar.hero{position:static;max-width:1180px;width:calc(100% - 32px);margin:16px auto 0;
+    background:var(--card);border:1px solid var(--line);border-radius:28px;
+    box-shadow:var(--shadow);padding:22px 20px}
+  @media(min-width:700px){.topbar.hero{width:calc(100% - 48px);padding:28px 30px}}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:6px;font-family:'Prompt',sans-serif;
+    font-weight:700;font-size:.78em;color:var(--teal-d);background:var(--teal-soft);
+    padding:5px 12px;border-radius:999px}
+  .hero h1{font-family:'Prompt',sans-serif;font-weight:800;line-height:1.12;color:var(--ink);
+    font-size:calc(var(--fs) * 1.85);margin:12px 0 6px}
+  @media(min-width:700px){.hero h1{font-size:calc(var(--fs) * 2.3)}}
+  .hero h1 span{color:inherit}
+  .hero .lede{color:var(--muted);font-size:.95em;margin-bottom:16px}
+  .legend{display:inline-flex;flex-wrap:wrap;gap:6px;margin-left:4px;vertical-align:middle}
+  .legend i{font-style:normal;font-size:.82em;font-weight:700;padding:2px 10px;border-radius:999px;border:1px solid}
+  .legend .m{background:#EAF6EE;border-color:#BFE3CC;color:#2E7D4F}
+  .legend .a{background:#FCEEF3;border-color:#F3CBDB;color:#B33A6A}
+  .legend .n{background:#EAF2FB;border-color:#C3D9F0;color:#2F6BAF}
+
+  /* ── ตัวควบคุม: ปุ่มแคปซูล 48px ── */
+  .hero .rowflex{gap:10px;margin-top:0}
+  .hero input[type=date]{min-height:48px;border-radius:999px;padding:0 18px;border-color:var(--line);
+    background:#fff;color:var(--ink);font-size:15px}
+  .btn{border-radius:999px;min-height:48px;padding:0 22px;font-weight:700;font-size:.92rem;
+    border-color:var(--line);background:transparent;transition:transform .18s ease,background .18s ease,box-shadow .18s ease}
+  .btn:hover{transform:translateY(-1px);background:#fff}
+  .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 10px 24px rgba(37,99,235,.22)}
+  .btn.primary:hover{background:var(--teal-d)}
+  .btn:focus-visible,.fsbtn:focus-visible,input[type=date]:focus-visible{outline:none;box-shadow:var(--ring)}
+  .fsgroup{border-radius:999px;min-height:48px;padding:4px 5px 4px 14px;border-color:var(--line)}
+  .fsbtn{border-radius:999px;min-width:40px;min-height:38px}
+  .pill{padding:8px 14px}
+  @media(max-width:699px){
+    .hero .rowflex{display:grid;grid-template-columns:1fr 1fr}
+    .hero input[type=date],.hero .fsgroup,.hero .pill{grid-column:1 / -1}
+    .hero .btn{width:100%}
+    .hero .fsgroup{justify-content:space-between}
+  }
+
+  /* ── หัววันที่ + KPI ── */
+  .daytitle{font-family:'Prompt',sans-serif;font-weight:800;font-size:1.35em;margin:4px 0 14px;color:var(--ink)}
+  .summary{gap:12px;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));margin-bottom:24px}
+  .stat{border-radius:20px;border-color:var(--line);box-shadow:var(--shadow-sm);padding:16px 18px}
+  .stat b{font-weight:800;font-size:2em;line-height:1.1;color:var(--teal-d)}
+  .stat small{font-weight:700;font-size:.8em;color:var(--muted)}
+
+  /* ── กล่องเวร (สีพาสเทลเดิม) ── */
+  .shiftsec{border-radius:24px;padding:6px 18px 18px;margin-bottom:24px;box-shadow:var(--shadow-sm)}
+  @media(max-width:699px){.shiftsec{padding:4px 10px 12px;border-radius:20px}}
+  .shifthead{font-weight:800;font-size:1.3em;margin:16px 4px 14px}
+  .shifthead::before{width:10px;height:26px;border-radius:999px}
+  .shifthead .cnt{font-family:'Sarabun',sans-serif;font-size:.62em;font-weight:700;
+    background:rgba(255,255,255,.75);border:1px solid rgba(23,32,51,.08);color:var(--ink);
+    padding:3px 11px;border-radius:999px}
+  .vteam{border-radius:20px;border-color:var(--line);box-shadow:0 2px 10px rgba(15,23,42,.04);margin-bottom:14px}
+  .vteam h4{font-weight:800;padding:12px 16px}
+  table.view th{background:#f8fafc;font-weight:700;border-bottom-color:var(--line)}
+  table.view td{border-bottom-color:var(--line-soft)}
+  .empty{border-radius:20px;border:1px dashed var(--line);background:#fff;padding:44px 24px}
+  .loading{color:var(--muted)}
+  footer{margin-top:28px;font-size:.78rem}
+
+  /* ── พิมพ์: ตัดเงา คงสีเวรไว้บนกระดาษ ── */
+  @media print{
+    .topbar.hero{box-shadow:none;border:none;border-radius:0;margin:0;width:100%;padding:0 0 6px}
+    .hero .eyebrow,.hero .lede{display:none}
+    .hero h1{font-size:15pt;margin:0}
+    .stat,.shiftsec,.vteam{box-shadow:none}
+    .shiftsec,.vteam h4,table.view td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <h1>ใบมอบหมายงาน <span>หอผู้ป่วยเฉลิมพระเกียรติ 7 ใต้</span> · สำหรับดูอย่างเดียว</h1>
+<header class="topbar hero">
+  <span class="eyebrow">หอผู้ป่วยเฉลิมพระเกียรติ 7 ใต้ · สำหรับดูอย่างเดียว</span>
+  <h1>ใบมอบหมายงานประจำวัน</h1>
+  <p class="lede">เลือกวันที่เพื่อดูการจ่ายงาน แยกสีตามเวร
+    <span class="legend"><i class="m">เช้า</i><i class="a">บ่าย</i><i class="n">ดึก</i></span></p>
   <div class="rowflex">
     <input type="date" id="pickDate">
     <button class="btn primary" onclick="load()">↻ รีเฟรช</button>
@@ -202,11 +294,11 @@
     </div>
     <span class="pill" id="lockpill" hidden></span>
   </div>
-</div>
+</header>
 
 <div class="wrap">
   <div id="board"><div class="loading">กำลังโหลด…</div></div>
-  <footer>อัปเดตล่าสุด <span id="updated">—</span> · หน้านี้ดูอย่างเดียว การจ่ายงานทำโดยหัวหน้าเวรเท่านั้น · รีเฟรชอัตโนมัติทุก 5 นาที</footer>
+  <footer>อัปเดตล่าสุด <span id="updated">—</span> · หน้านี้ดูอย่างเดียว การจ่ายงานทำโดยหัวหน้าเวรเท่านั้น · โฮสต์บน GitHub Pages · รีเฟรชอัตโนมัติทุก 5 นาที</footer>
 </div>
 
 <script>
@@ -222,12 +314,27 @@ function lvlCls(lv){lv=String(lv||'').toUpperCase();
   return'';}
 const SHIFTS=['เวรเช้า','เวรบ่าย','เวรดึก'];
 const $=id=>document.getElementById(id);
-$('pickDate').value=new Date().toISOString().slice(0,10);
-$('pickDate').addEventListener('change',load);
+/* ═══ วันที่ "วันนี้" ตามเวลาประเทศไทยเสมอ ═══
+   เดิมใช้ new Date().toISOString() ซึ่งเป็นเวลา UTC (ช้ากว่าไทย 7 ชม.)
+   ทำให้เปิดเว็บช่วง 00:00–06:59 น. ได้วันที่ของเมื่อวาน และสถิติรายเดือนผิดเดือน */
+function todayTH(){
+  try{
+    const s=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+    if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
+  }catch(e){}
+  return new Date(Date.now()+7*3600000).toISOString().slice(0,10);   // สำรอง: UTC+7
+}
+let autoDate=true;   // true = ระบบตั้งวันให้เอง (ผู้ใช้ยังไม่ได้เลือกวันอื่น)
+$('pickDate').value=todayTH();
+$('pickDate').addEventListener('change',()=>{autoDate=($('pickDate').value===todayTH());load();});
+/* ถ้าเปิดค้างข้ามเที่ยงคืน → เลื่อนเป็นวันใหม่ (เฉพาะกรณีไม่ได้เลือกวันเอง) */
+function rollDay(){const t=todayTH();if(autoDate&&$('pickDate').value!==t){$('pickDate').value=t;return true;}return false;}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){rollDay();load();}});
+window.addEventListener('pageshow',e=>{if(e.persisted){rollDay();load();}});
 
 /*DATA_LOADER_START*/
 /* ⚙️ วาง URL ของ Web App (Apps Script → Deploy) ที่นี่ — ลงท้ายด้วย /exec */
-const API_URL = 'https://script.google.com/macros/s/AKfycbw5tKBIG3l7a2po_OcX47EMSH3SVRwfYBE0VFJae5AeF-Bob0g9YxsgfxQMfWdPSKgq/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyPcHjU9y2CMbyqt7kMyx5MY4--S4P7lz2uEEsmKWcBPjS3Z0SrLrG6IElPpfrFK6aC/exec';
 
 async function load(){
   $('board').innerHTML='<div class="loading">กำลังโหลดข้อมูล…</div>';
@@ -275,7 +382,7 @@ function render(data){
   const train=recs.filter(r=>r['อบรมประชุม']).length;
   const risk=recs.filter(r=>(r.highrisk||[]).length).length;
 
-  let html=`<h2 style="font-family:'Prompt';font-size:1.05rem;margin:2px 0 10px">${esc(thai)}</h2>`;
+  let html=`<h2 class="daytitle">${esc(thai)}</h2>`;
   html+=`<div class="summary">
     <div class="stat"><b>${active.length}</b><small>ขึ้นเวร</small></div>
     <div class="stat"><b>${leave}</b><small>ลา</small></div>
@@ -288,7 +395,7 @@ function render(data){
     const rows=recs.filter(r=>(r['เวร']||'เวรเช้า')===s);
     if(!rows.length)return;
     html+=`<div class="shiftsec ${shiftCls(s)}">`;
-    html+=`<div class="shifthead">${s} · ${rows.length} คน</div>`;
+    html+=`<div class="shifthead">${s} <span class="cnt">${rows.length} คน</span></div>`;
     const teamNames=[...TEAMS.filter(t=>rows.some(r=>r['ทีม']===t)),
       ...[...new Set(rows.map(r=>r['ทีม']))].filter(t=>!TEAMS.includes(t))];
     teamNames.forEach(team=>{
@@ -352,7 +459,8 @@ function setFS(size){
 })();
 
 load();
-setInterval(load, 5*60*1000); // รีเฟรชอัตโนมัติทุก 5 นาที
+setInterval(()=>{rollDay();load();}, 5*60*1000); // รีเฟรชอัตโนมัติทุก 5 นาที
+setInterval(()=>{if(rollDay())load();}, 60*1000);   // ตรวจขึ้นวันใหม่ทุก 1 นาที
 </script>
 </body>
 </html>
